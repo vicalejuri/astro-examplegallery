@@ -1,0 +1,30 @@
+---
+import Gallery from '../Gallery.astro';
+
+import {dirname, relative, resolve} from 'node:path';
+import { totalist } from 'totalist/sync';
+
+const dirnamePath = dirname(Astro.filename);
+const allImages = new Set();
+
+totalist(dirnamePath + '/images/', (name, abs, stats) => {
+  if(/(.png|.jpg|.jpeg|.gif)$/.test(name)){
+    if(stats.size >= 2e6) {
+      console.warn(`Image ${abs} is bigger than 2MB, Please review it.`);
+    }
+    /** We need to import before using it */
+    const relativePath = `./${relative(dirnamePath, abs )}`;
+    allImages.add(Astro.resolve(relativePath));
+  }
+});
+
+let images = [...allImages];
+
+---
+<div class="birds-gallery">
+  <Gallery
+    title='Supplement to the General synopsis of birds'
+    caption='Drawings by <a href="https://www.biodiversitylibrary.org/item/103199#page/7/mode/1up">Latham, John, 1740-1837</a>'
+    gallery={images}
+  />
+</div>

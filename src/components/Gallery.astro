@@ -1,0 +1,27 @@
+---
+let {title, gallery, caption} = Astro.props;
+---
+<div class="gallery">
+  <h1 class="title">{title}</h1>
+  <div class="grid">
+    {gallery.map( (imagePath) => {
+        return <a href={imagePath} target="_blank" class="img-thumb">
+          <img loading="lazy" src={imagePath} />
+        </a>
+      }) }
+  </div>
+  <div class="caption">
+    <p>{caption}</p>
+  </div>
+</div>
+
+<style lang="scss">
+.grid {
+  display: grid;
+  grid-gap: 2rem;
+
+  @media (min-width: 1200px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+</style>

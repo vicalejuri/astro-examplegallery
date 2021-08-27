@@ -1,0 +1,28 @@
+---
+import Gallery from '../Gallery.astro';
+import {dirname, relative, resolve} from 'node:path';
+import { totalist } from 'totalist/sync';
+
+const dirnamePath = dirname(Astro.filename);
+const allImages = new Set();
+
+totalist(dirnamePath + '/images/', (name, abs, stats) => {
+  if(/(.png|.jpg|.jpeg|.gif)$/.test(name)){
+    if(stats.size >= 2e6) {
+      console.warn(`Image ${abs} is bigger than 2MB, Please review it.`);
+    }
+    /** We need to import before using it */
+    const relativePath = `./${relative(dirnamePath, abs )}`;
+    allImages.add(Astro.resolve(relativePath));
+  }
+});
+
+let images = [...allImages];
+---
+
+<div class="botanical-gallery">
+  <Gallery 
+    title='Icones Airodearum' 
+    caption='Drawings by <a href="https://www.biodiversitylibrary.org/item/205638#page/5/mode/1up">Schott, H. W. (Heinrich Wilhelm), 1794-1865</a>' 
+    gallery={images} />
+</div>

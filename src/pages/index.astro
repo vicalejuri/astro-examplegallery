@@ -1,0 +1,23 @@
+---
+// Component Imports
+import MainHead from '../components/MainHead.astro';
+import BotanicalGallery from '../components/botanical/gallery.astro'
+import BirdsGallery from '../components/birds/gallery.astro'
+
+---
+<html lang="en">
+  <head>
+    <MainHead title="A image gallery" />
+    <style lang="scss">
+      $w-s: 750px;
+
+    </style>
+  </head>
+  <body>
+    <main class="wrapper mt4 mb4">
+      <BirdsGallery />
+      <hr />
+      <BotanicalGallery />
+    </main>
+  </body>
+</html>
